@@ -52,4 +52,4 @@ jobs:
     
     - name: Push to registry
       run: |-
-        docker image push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/images/$IMAGE:$GIT_TAG"
+        docker image push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:$GIT_TAG"
