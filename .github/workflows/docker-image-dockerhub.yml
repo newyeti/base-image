@@ -32,6 +32,7 @@ jobs:
     - name: Build the Docker image
       run: |-
         docker build . --file Dockerfile --tag newyeti-jre-alipine:$GIT_TAG
+        docker image ls
     - name: Push to registry
       run: |-
-        docker image push sachindramaharjan/newyeti-jre-alipine:$GIT_TAG --quiet
+        docker image push newyeti-jre-alipine:$GIT_TAG --quiet
