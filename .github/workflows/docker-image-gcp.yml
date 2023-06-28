@@ -52,7 +52,7 @@ jobs:
     
     - name: Build the Docker image
       run: |-
-        docker build . --file Dockerfile --tag $IMAGE_NAME:$GIT_TAG
+        docker build . --file Dockerfile --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:$GIT_TAG"
         docker image ls
     
     - name: Push to registry
