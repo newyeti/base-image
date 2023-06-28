@@ -14,25 +14,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: 'Get Git Tag from commit message'
       id: determine-git-tag
       env:
         COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       run: |-
         bash ./scripts/git_version.sh
+
     - name: Automatic Tagging of Releases
       id: increment-git-tag
       run: |
         bash ./scripts/git_update.sh -v $GIT_TAG_TYPE
+
     - name: Build the Docker image
       run: |-
         docker build . --file Dockerfile --tag sachindramaharjan/newyeti-jre-alipine:$GIT_TAG
         docker image ls
+
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Push to registry
       run: |-
         docker image push sachindramaharjan/newyeti-jre-alipine:$GIT_TAG --quiet
