@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: DockerHub - Build Docker Image and Push
 
 on:
   push:
@@ -32,4 +32,6 @@ jobs:
     - name: Build the Docker image
       run: |-
         docker build . --file Dockerfile --tag newyeti-jre-alipine:$GIT_TAG
-        docker image push registry.hub.docker.com:/sachindramaharjan/newyeti-jre-alipine:$GIT_TAG
+    - name: Push to registry
+      run: |-
+        docker image push sachindramaharjan/newyeti-jre-alipine:$GIT_TAG --quiet

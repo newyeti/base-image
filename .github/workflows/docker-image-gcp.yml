@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: GCP - Build Docker Image and Push
 
 on:
   push:
