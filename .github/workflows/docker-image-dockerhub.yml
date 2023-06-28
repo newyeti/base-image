@@ -10,7 +10,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: contains(github.event.head_commit.message, 'gcp')
+    if: contains(github.event.head_commit.message, 'dockerhub')
 
     steps:
     - uses: actions/checkout@v3
@@ -30,4 +30,6 @@ jobs:
       run: |
         bash ./scripts/git_update.sh -v $GIT_TAG_TYPE
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag newyeti-jre-alipine:$GIT_TAG
+      run: |-
+        docker build . --file Dockerfile --tag newyeti-jre-alipine:$GIT_TAG
+        docker image push newyeti-jre-alipine:$GIT_TAG
