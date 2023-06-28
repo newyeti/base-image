@@ -1,0 +1,39 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    if: contains(github.event.head_commit.message, 'gcp')
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+        version: '>= 416.0.0'
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+    - name: Configure Docker Client
+      run: |-
+        gcloud auth configure-docker --quiet
+        gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+    - name: 'Get Git Tag from commit message'
+      id: determine-git-tag
+      env:
+        COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      run: |-
+        bash ./scripts/git_version.sh
+    - name: Automatic Tagging of Releases
+      id: increment-git-tag
+      run: |
+        bash ./scripts/git_update.sh -v $GIT_TAG_TYPE
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag newyeti-jre-alipine:$GIT_TAG
