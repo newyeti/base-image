@@ -36,7 +36,9 @@ jobs:
       run: |
         bash ./scripts/git_update.sh -v $GIT_TAG_TYPE
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag newyeti-jre-alipine:$GIT_TAG
+      run: |- 
+        docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/newyeti-jre-alipine:$GIT_TAG
+        docker image ls
     - name: Push to registry
       run: |-
         docker image push us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/newyeti-jre-alipine:$GIT_TAG --quiet
