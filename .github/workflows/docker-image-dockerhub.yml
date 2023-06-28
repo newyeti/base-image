@@ -35,4 +35,4 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push to registry
       run: |-
-        docker image push newyeti-jre-alipine:$GIT_TAG --quiet
+        docker image push sachindramaharjan/newyeti-jre-alipine:$GIT_TAG --quiet
